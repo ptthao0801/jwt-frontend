@@ -11,8 +11,57 @@
 }
 
 .login-container {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    padding: 5% 5% 5% 5%;
+
     .content-right {
-        border: 1px solid gray;
         border-radius: 10px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+        box-sizing: border-box;
+
+        .forgotten-password {
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        .create-btn {
+            background-color: #42B72A;
+            color: #fff;
+        }
+
+        .fb-logo-mobile {
+            overflow-clip-margin: content-box;
+            overflow: clip;
+            max-width: 50%;
+            text-align: left;
+        }
+        
     }
+
+    .content-left {
+        padding-left: 5%;
+        .fb-logo {
+            overflow-clip-margin: content-box;
+            overflow: clip;
+            max-width: 50%;
+            text-align: left;
+        }
+        .detail {
+            font-family: SFProDisplay-Regular, Helvetica, Arial, sans-serif;
+            font-weight: normal;
+            line-height: 32px;
+            padding-left: 5%;
+            padding-right: 10%;
+        }
+        
+    }
+
+    .row {
+        margin-top: 80px;
+    }
+    
 }
