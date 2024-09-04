@@ -1,6 +1,7 @@
 import './Register.scss';
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import axios from 'axios';
 const Register = (props) => {
@@ -19,6 +20,33 @@ const Register = (props) => {
         history.push('/login');
     }
 
+    const isValidInputs = () => {
+        if(!email ) {
+            toast.error('Email is required!')
+            return false
+        } 
+        if(!phone ) {
+            toast.error('Phone is required!')
+            return false
+        } 
+        if(!password ) {
+            toast.error('Password is required!')
+            return false
+        } 
+        if(confirmPassword!=password) {
+            toast.error('Passwords do not match!')
+            return false
+        }
+
+        let regx = /\S+@\S+\.\S+/;
+        if(regx.test(email)) {
+            toast.error('Your email address is not formatted correctly!')
+            return false
+        }
+
+        return true;
+    }
+
     useEffect(() => {
         axios.get('https://reqres.in/api/users?page=2').then(data => {
             console.log('>>> check data axios: ', data)
@@ -26,6 +54,7 @@ const Register = (props) => {
     },[])
 
     const handleSignUp = () => {
+        isValidInputs();
         let userData = {email, phone, username, password} //cach tao object nay se lay ten cuar tham so truyen vao luon thay vi email: email
         console.log(userData)
     }
