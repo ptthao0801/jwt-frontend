@@ -1,7 +1,15 @@
 import './Register.scss';
 import { useHistory } from "react-router-dom";
+import { useEffect, useState } from 'react';
 
+import axios from 'axios';
 const Register = (props) => {
+    const [email, setEmail] = useState('');
+    const [phone, setPhone] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     let history = useHistory();
     const handleCreateNewAccount = () => {
         history.push('/register'); 
@@ -9,6 +17,17 @@ const Register = (props) => {
 
     const handleLogIn= () => {
         history.push('/login');
+    }
+
+    useEffect(() => {
+        axios.get('https://reqres.in/api/users?page=2').then(data => {
+            console.log('>>> check data axios: ', data)
+        })
+    },[])
+
+    const handleSignUp = () => {
+        let userData = {email, phone, username, password} //cach tao object nay se lay ten cuar tham so truyen vao luon thay vi email: email
+        console.log(userData)
     }
 
     return (
@@ -30,13 +49,12 @@ const Register = (props) => {
 
                         <div className='signup fs-3 fw-bolder'>Sign Up</div>
                         
-                        <input type='text' className='form-control' placeholder='Email address'/>
-
-                        <input type='text' className='form-control' placeholder='Phone number'/>
-                        <input type='text' className='form-control' placeholder='Username'/>
-                        <input type='password' className='form-control' placeholder='Password'/>
-                        <input type='password' className='form-control' placeholder='Re-enter password'/>
-                        <button className='btn btn-primary fw-bold'>Sign Up</button>
+                        <input type='text' className='form-control' placeholder='Email address' value={email} onChange={(event) => setEmail(event.target.value)}/>
+                        <input type='text' className='form-control' placeholder='Phone number' value={phone} onChange={(event) => setPhone(event.target.value)}/>
+                        <input type='text' className='form-control' placeholder='Username' value={username} onChange={(event) => setUsername(event.target.value)}/>
+                        <input type='password' className='form-control' placeholder='Password' value={password} onChange={(event) => setPassword(event.target.value)}/>
+                        <input type='password' className='form-control' placeholder='Re-enter password' value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)}/>
+                        <button className='btn btn-primary fw-bold' onClick={() => handleSignUp()}>Sign Up</button>
                         <span className='text-center'>
                             <a className='forgotten-password' href='/login'>Already have an account?</a>
                             </span>
