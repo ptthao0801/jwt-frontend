@@ -6,4 +6,10 @@ const registerNewUser = (email, phone, username, password) => {
     })
 }
 
-export {registerNewUser};
+const loginUser = (valueLogin, password) => {
+    return axios.post('http://localhost:8082/api/login', {
+        valueLogin, password
+    })
+}
+
+export {registerNewUser, loginUser};
