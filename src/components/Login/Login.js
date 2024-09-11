@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import './Login.scss';
-// import { Link } from 'react-router-dom/cjs/react-router-dom';
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { loginUser } from '../../service/userService';
@@ -34,7 +33,25 @@ const Login = (props) => {
             return;
         }
 
-        await loginUser(valueLogin, password);
+        let response = await loginUser(valueLogin, password);
+
+        // success
+        if(response && response.data && +response.data.EC === 0){
+            
+            let data = {
+                isAuthenticated: true,
+                token: 'fake token'
+            }
+
+            //save data to sessionStorage
+            sessionStorage.setItem('account', JSON.stringify(data))
+            history.push('/users')
+        }
+
+        // error
+        if(response && response.data && +response.data.EC !== 0){
+            toast.error(response.data.EM)
+        }
     }
 
     return (
