@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Login.scss';
 import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
@@ -46,6 +46,7 @@ const Login = (props) => {
             //save data to sessionStorage
             sessionStorage.setItem('account', JSON.stringify(data))
             history.push('/users')
+            window.location.reload()
         }
 
         // error
@@ -53,6 +54,21 @@ const Login = (props) => {
             toast.error(response.data.EM)
         }
     }
+
+    const handlePressEnter = (event) => {
+        if(event.code === 'Enter' && event.charCode === 13){
+            handleLogin();
+        }
+    }
+
+    useEffect(()=>{
+        //get saved data from sessionStorage
+        let session = sessionStorage.getItem('account');
+        if(session){
+            history.push('/');
+            window.location.reload();
+        } 
+    },[])
 
     return (
         <div className="login-container">
@@ -84,6 +100,7 @@ const Login = (props) => {
                             placeholder='Password'
                             value={password}
                             onChange={(event)=> {setPassword(event.target.value)}}
+                            onKeyPress={(event)=> handlePressEnter(event)}
                         />
                         <button className='btn btn-primary fw-bold' onClick={() => handleLogin()}>Log in</button>
                         <span className='text-center'>
