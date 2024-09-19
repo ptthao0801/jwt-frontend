@@ -22,4 +22,8 @@ const deleteUser = (user) => {
     })
 }
 
-export {registerNewUser, loginUser, fetchAllUsers, deleteUser};
+const fetchGroup = () => {
+    return axios.get('http://localhost:8082/api/group/read');
+}
+
+export {registerNewUser, loginUser, fetchAllUsers, deleteUser, fetchGroup};
