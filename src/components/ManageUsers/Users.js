@@ -13,6 +13,7 @@ const Users = (props) => {
     const [totalPages, setTotalPages] = useState(0)
     const [isShowModalDelete, setIsShowModalDelete] = useState(false)
     const [dataModal, setDataModal] = useState({});
+    const [isShowModalUser, setIsShowModalUser] = useState(false);
 
     useEffect(() => {
         fetchUsers();
@@ -56,17 +57,21 @@ const Users = (props) => {
         setIsShowModalDelete(false)
     }
 
+    const onHideModalUser = () => {
+        setIsShowModalUser(false)
+    }
+
     return (
         <>
             <div className='container'>
-                <div className='manage-users=container'>
+                <div className='manage-users=container mt-3'>
                     <div className='user-header'>
                         <div>
-                            <h3>Table Users</h3>
+                            <h3>Account management board</h3>
                         </div>
                         <div className='action'>
                             <button className='btn btn-success'>Refresh</button>
-                            <button className='btn btn-primary'>Add new user</button>
+                            <button className='btn btn-primary' onClick={() => setIsShowModalUser(true)}>Add new user</button>
                         </div>
                     </div> 
                     <div className='user-body'>
@@ -145,7 +150,10 @@ const Users = (props) => {
                 dataModal = {dataModal}/>
             
             <ModalUser
-                title = {'hello'}
+                handleClose = {handleClose}
+                title = {'Create a new user'}
+                onHide = {onHideModalUser}
+                show = {isShowModalUser}
             />
         </>
         
