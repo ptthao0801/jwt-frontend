@@ -28,9 +28,9 @@ const Users = (props) => {
     const fetchUsers = async () => {
         let response = await fetchAllUsers(currentPage, currentLimit);
 
-        if(response && response.data && response.data.EC === 0){
-            setTotalPages(response.data.DT.totalPages)
-            setListUsers(response.data.DT.users);
+        if(response && response && response.EC === 0){
+            setTotalPages(response.DT.totalPages)
+            setListUsers(response.DT.users);
 
             console.log('>>>>>check response: ', response)
         }
@@ -53,11 +53,11 @@ const Users = (props) => {
     const confirmDeleteUser = async () => {
         let response = await deleteUser(dataModal);
         console.log('>>> check response delete: ', response)
-        if(response && response.data.EC === 0){
-            toast.success(response.data.EM)
+        if(response && response.EC === 0){
+            toast.success(response.EM)
             await fetchUsers();
         } else {
-            toast.error(response.data.EM)
+            toast.error(response.EM)
         }
         setIsShowModalDelete(false)
     }
@@ -81,6 +81,7 @@ const Users = (props) => {
 
     const handleRefresh = async () => {
         await fetchUsers();
+        toast('👌Your data is up-to-date!')
     }
 
     return (
