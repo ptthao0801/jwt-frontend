@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import { fetchGroup, createNewUser } from '../../service/userService';
+import { fetchGroup, createNewUser, updateCurrentUser } from '../../service/userService';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
 
@@ -73,6 +73,9 @@ const ModalUser = (props) => {
 
     const checkValidateInputs = () => {
         //create user
+        if(action === 'UPDATE'){
+            return true
+        };
         setValidInputs(validInputsDefault)
         let arr = ['email', 'phone', 'username', 'password', 'group']
         let check = true
@@ -94,11 +97,14 @@ const ModalUser = (props) => {
     const handleConfirmUser = async () => {
         let check = checkValidateInputs();
         if(check === true){
-            let res = await createNewUser({...userData, groupId: userData['group']})
+            let res = action === 'CREATE' ? 
+                        await createNewUser({...userData, groupId: userData['group']}) 
+                        :
+                        await updateCurrentUser({...userData, groupId: userData['group']}); 
             if(res.data && res.data.EC === 0){
                 props.onHide()
-                toast.success('Created a new user successfully!')
-                setUserData({...defaultUserData, group: userGroups[0].id})
+                toast.success(res.data.EM)
+                setUserData({...defaultUserData, group: userGroups && userGroups.length > 0 ? userGroups[0].id : ''})
             } 
             else {
                 toast.error(res.data.EM)
@@ -206,7 +212,6 @@ const ModalUser = (props) => {
                         <Form.Label >Sex</Form.Label>
                             <select 
                                 className={validInputs.sex ? 'form-select' : 'form-select is-invalid'}
-                                class="form-select" 
                                 aria-label="Default select example" 
                                 onChange={(event)=> handleOnChangeInput(event.target.value, 'sex')}
                                 value={userData.sex}
@@ -223,7 +228,6 @@ const ModalUser = (props) => {
                         <Form.Label >Group<span className='mark-important' >*</span></Form.Label>
                             <select 
                                 className={validInputs.group ? 'form-select' : 'form-select is-invalid'}
-                                class="form-select" 
                                 aria-label="Default select example"
                                 onChange={(event)=> handleOnChangeInput(event.target.value, 'group')}
                                 value={userData.group}
