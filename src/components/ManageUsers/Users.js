@@ -92,11 +92,12 @@ const Users = (props) => {
                         <div>
                             <h3>Account management board</h3>
                         </div>
-                        <div className='actions'>
-                            <button className='btn btn-success refresh' onClick={()=> handleRefresh()}><i class="fa fa-refresh" aria-hidden="true"></i>
-                            Refresh</button>
+                        <div className='actions' style={{float: 'right'}}>
+                            
                             <button className='btn btn-primary add' onClick={() => handleCreateUser()}><i class="fa fa-plus" aria-hidden="true"></i>
-                            Add new user</button>
+                            Add New</button>
+                            <button className='btn refresh' onClick={()=> handleRefresh()}><i class="fa fa-refresh" aria-hidden="true"></i>
+                            Refresh</button>
                         </div>
                     </div> 
                     <div className='user-body'>
