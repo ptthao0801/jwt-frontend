@@ -1,12 +1,14 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
+import {getUserAccount} from '../service/userService';
 
-const UserContext = createContext({ name: '', auth: false });
+const UserContext = createContext(null);
 
 const UserProvider = ({children}) => {
 
   // User is the name of the "data" that gets stored in context
     const [user, setUser] = useState(
-      { isAuthenticated: false, 
+      { 
+        isAuthenticated: false, 
         token: '',
         account: {}
       });
@@ -23,6 +25,26 @@ const UserProvider = ({children}) => {
       auth: false,
     }));
   };
+
+  const fetchUsers = async () => {
+    let response = await getUserAccount();
+    if(response && response.EC === 0){
+      let groupWithRoles = response.DT.groupWithRoles;
+            let email = response.DT.email;
+            let username = response.DT.username
+            let token = response.DT.access_token
+            let data = {
+                isAuthenticated: true,
+                token: token,
+                account: {groupWithRoles, email, username}
+            }
+      setUser(data);
+    }
+  }
+
+  useEffect(()=> {
+    fetchUsers()
+  },[])
 
   return (
     <UserContext.Provider value={{ user, loginContext, logout }}>

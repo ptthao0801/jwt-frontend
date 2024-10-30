@@ -70,14 +70,6 @@ const Login = (props) => {
         }
     }
 
-    useEffect(()=>{
-        //get saved data from sessionStorage
-        let session = sessionStorage.getItem('account');
-        if(session){
-            history.push('/');
-            window.location.reload();
-        } 
-    },[])
 
     return (
         <div className="login-container">
